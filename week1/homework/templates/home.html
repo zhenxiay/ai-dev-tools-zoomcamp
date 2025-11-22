@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}TODO List{% endblock %}
+
+{% block content %}
+<h1>My TODO List</h1>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'create_todo' %}" class="btn btn-success">+ Add New TODO</a>
+</div>
+
+{% if todos %}
+    <ul class="todo-list">
+        {% for todo in todos %}
+        <li class="todo-item {% if todo.is_resolved %}resolved{% endif %}">
+            <div class="todo-title {% if todo.is_resolved %}resolved{% endif %}">
+                {{ todo.title }}
+            </div>
+            
+            {% if todo.description %}
+            <div class="todo-description">
+                {{ todo.description }}
+            </div>
+            {% endif %}
+            
+            <div class="todo-meta">
+                {% if todo.due_date %}
+                    📅 Due: {{ todo.due_date|date:"Y-m-d" }}
+                {% endif %}
+                | Created: {{ todo.created_at|date:"Y-m-d H:i" }}
+                {% if todo.is_resolved %}
+                    | ✅ Resolved
+                {% else %}
+                    | ⏳ Pending
+                {% endif %}
+            </div>
+            
+            <div class="todo-actions">
+                <form method="post" action="{% url 'toggle_resolved' todo.id %}" style="display: inline; margin: 0;">
+                    {% csrf_token %}
+                    {% if todo.is_resolved %}
+                        <button type="submit" class="btn btn-secondary btn-small">Mark as Pending</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success btn-small">Mark as Resolved</button>
+                    {% endif %}
+                </form>
+                
+                <a href="{% url 'edit_todo' todo.id %}" class="btn btn-small">Edit</a>
+                <a href="{% url 'delete_todo' todo.id %}" class="btn btn-danger btn-small">Delete</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="alert">
+        No TODOs yet! Click "Add New TODO" to create your first task.
+    </div>
+{% endif %}
+
+{% endblock %}

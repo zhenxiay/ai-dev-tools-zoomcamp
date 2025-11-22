@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete TODO{% endblock %}
+
+{% block content %}
+<h1>Delete TODO</h1>
+
+<div class="alert" style="background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+    Are you sure you want to delete this TODO?
+</div>
+
+<div class="todo-item">
+    <div class="todo-title">{{ todo.title }}</div>
+    {% if todo.description %}
+    <div class="todo-description">{{ todo.description }}</div>
+    {% endif %}
+    {% if todo.due_date %}
+    <div class="todo-meta">Due: {{ todo.due_date|date:"Y-m-d" }}</div>
+    {% endif %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}
