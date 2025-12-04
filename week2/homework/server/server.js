@@ -160,9 +160,8 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-
 export const startServer = () => {
+  const PORT = process.env.PORT || 3000;
   return httpServer.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });

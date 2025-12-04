@@ -42,6 +42,25 @@ Please implement this application following best practices and create comprehens
 npm test
 ```
 
+### Test Results:
+
+All **7 integration tests** pass successfully:
+
+```
+✓ Server Integration Tests (7)
+  ✓ should respond to health check
+  ✓ should create a new session
+  ✓ should get session information
+  ✓ should return 404 for non-existent session
+  ✓ should handle WebSocket connection and session join
+  ✓ should synchronize code changes between users
+  ✓ should broadcast language changes to all users
+
+Test Files  1 passed (1)
+Tests  7 passed (7)
+Duration  ~7 seconds
+```
+
 ### Alternative Commands:
 
 ```bash
@@ -57,6 +76,13 @@ npm test -- --watch
 # Run tests with coverage
 npm test -- --coverage
 ```
+
+### Test Configuration:
+
+- **Test Framework**: Vitest 1.6.1
+- **Test Port**: 3001 (development uses 3000)
+- **Timeout**: 15 seconds
+- **Test File**: `server/server.test.js`
 
 ---
 

@@ -2,19 +2,27 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { io as Client } from 'socket.io-client';
 import { startServer, closeServer } from './server.js';
 
-const SERVER_URL = 'http://localhost:3000';
+// Use different port for testing to avoid conflicts
+const TEST_PORT = process.env.TEST_PORT || 3001;
+const SERVER_URL = `http://localhost:${TEST_PORT}`;
 
 describe('Server Integration Tests', () => {
   let server;
 
   beforeAll(async () => {
+    // Set test port
+    process.env.PORT = TEST_PORT;
+    process.env.NODE_ENV = 'test';
+    
     server = await startServer();
     // Wait for server to be ready
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
   });
 
   afterAll(async () => {
     await closeServer();
+    // Wait for cleanup
+    await new Promise(resolve => setTimeout(resolve, 500));
   });
 
   it('should respond to health check', async () => {
